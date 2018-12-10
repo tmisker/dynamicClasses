@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="NanoflowClass.widget.NanoflowClass" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>NanoflowClass</name>
+<widget id="DynamicClasses.widget.DynamicClasses" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>DynamicClasses</name>
     <description>The description of this widget.</description>
 
     <icon />

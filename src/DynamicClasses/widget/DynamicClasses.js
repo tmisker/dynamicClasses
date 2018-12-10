@@ -19,7 +19,7 @@ define([
 ], function (declare, _WidgetBase, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, lang, dojoText, dojoHtml, dojoEvent) {
     "use strict";
 
-    return declare("NanoflowClass.widget.NanoflowClass", [ _WidgetBase ], {
+    return declare("DynamicClasses.widget.DynamicClasses", [ _WidgetBase ], {
 
         // Modeler variables
         nfReturningClass: null,
@@ -140,4 +140,4 @@ define([
     });
 });
 
-require(["NanoflowClass/widget/NanoflowClass"]);
+require(["DynamicClasses/widget/DynamicClasses"]);
