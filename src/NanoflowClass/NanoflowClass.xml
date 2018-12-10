@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="NanoflowClass.widget.NanoflowClass" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>NanoflowClass</name>
+    <description>The description of this widget.</description>
+
+    <icon />
+
+    <properties>
+        <property key="nfReturningClass" type="nanoflow" required="true" defaultValue="">
+            <caption>Nanoflow</caption>
+            <category>Behavior</category>
+            <description>The nanoflow that returns the classes that should be added.</description>
+            <returnType type="String" />
+        </property>
+        <property key="nfBooleanTest" type="nanoflow" required="true" defaultValue="">
+            <caption>Test Nanoflow</caption>
+            <category>Behavior</category>
+            <description>The nanoflow that returns a boolean for test purposes.</description>
+            <returnType type="Boolean" />
+        </property>
+        <property key="mfReturningClass" type="microflow" required="true" defaultValue="">
+            <caption>Microflow</caption>
+            <category>Behavior</category>
+            <description>The microflow that returns the classes that should be added.</description>
+            <returnType type="String" />
+        </property>
+    </properties>
+</widget>

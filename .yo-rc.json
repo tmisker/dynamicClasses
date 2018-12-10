@@ -1,0 +1,11 @@
+{
+  "generator-mendix": {
+    "promptValues": {
+      "copyright": "Simplylogic 2018",
+      "license": "Apache 2",
+      "author": "Tim Misker",
+      "boilerplate": "empty",
+      "widgetoptions": []
+    }
+  }
+}
