@@ -1,3 +1,3 @@
-# Mendix Widget Boilerplate
+# Dynamic Classes
 
-See [AppStoreWidgetBoilerplate](https://github.com/mendix/AppStoreWidgetBoilerplate/) for an example
+This widget will set classes with the help of a microflow and/or a nanoflow.
