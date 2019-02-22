@@ -22,53 +22,51 @@ define([
     return declare("DynamicClasses.widget.DynamicClasses", [ _WidgetBase ], {
 
         // Modeler variables
-        nfReturningClass: null,
-        mfReturningClass: null,
-        nfBooleanTest: null,
+        nfReturningClass: "",
+        mfReturningClass: "",
 
         // Internal variables.
         _handles: null,
+        _handle: null,
         _contextObj: null,
         _elementToApplyTo: null,
 
         constructor: function () {
-            this._handles = [];
+          this._handles = [];
         },
 
         postCreate: function () {
-            logger.debug(this.id + ".postCreate");
+          //logger.debug(this.id + ".postCreate");
+          this.domNode.style.display = "none";
+          this.domNode.classList = this.domNode.parentNode.classList;
+          this._elementToApplyTo = this.domNode.parentNode;
         },
 
         update: function (obj, callback) {
-            logger.debug(this.id + ".update");
-            this._contextObj = obj;
-            this._getClasses (callback);
-            this._updateRendering(callback);
+          //logger.debug(this.id + ".update");
+          this._contextObj = obj;
+          this._resetSubscriptions();
+          this._updateRendering();
+          this._executeCallback(callback, "update");
         },
 
         resize: function (box) {
-            logger.debug(this.id + ".resize");
-
+          //logger.debug(this.id + ".resize");
         },
 
         uninitialize: function () {
-            logger.debug(this.id + ".uninitialize");
+          //logger.debug(this.id + ".uninitialize");
         },
 
-        _updateRendering: function (callback) {
-            logger.debug(this.id + "._updateRendering");
-
-            if (this._contextObj !== null) {
-                dojoStyle.set(this.domNode, "display", "block");
-            } else {
-                dojoStyle.set(this.domNode, "display", "none");
-            }
-
-            this._executeCallback(callback, "_updateRendering");
+        _updateRendering: function () {
+          //logger.debug(this.id + "._updateRendering");
+          this._setClasses ();
         },
 
         // Get classes from microflow and/or nanoflow and apply them to the right element
-        _getClasses: function (callback) {
+        _setClasses: function (callback) {
+          // Reset to original classes
+          this._elementToApplyTo.classList = this.domNode.classList
           // Microflow part
           if (this.mfReturningClass && this._contextObj) {
             mx.ui.action(this.mfReturningClass, {
@@ -77,65 +75,66 @@ define([
                 guids: [this._contextObj.getGuid()]
               },
               callback: lang.hitch(this, function (callback, returnedString) {
-                console.log("Microflow result " + returnedString)
+                //logger.debug("Microflow result " + returnedString)
                 this._addClasses(returnedString);
               }, callback),
               error: lang.hitch(this, function(error) {
-                console.log("Microflow error")
-                console.log(error)
+                logger.error("Error in microflow " + this.mfReturningClass);
+                logger.error(error);
               })
             });
           };
           // Nanoflow part
-          if (this.nfReturningClass && this.mxcontext) {
+          if (this.nfReturningClass.nanoflow && this._contextObj && this.mxcontext) {
             mx.data.callNanoflow({
               nanoflow: this.nfReturningClass,
               context: this.mxcontext,
               origin: this.mxform,
               callback: lang.hitch(this, function(callback, returnedString) {
-                console.log("Nanoflow result " + returnedString);
+                //logger.debug("Nanoflow result " + returnedString);
                 this._addClasses(returnedString);
               }, callback),
               error: lang.hitch(this, function(error) {
-                console.log("Nanoflow error");
-                console.log(error);
-              })
-            });
-          };
-          // Nanoflow test
-          if (this.nfBooleanTest && this.mxcontext) {
-            mx.data.callNanoflow({
-              nanoflow: this.nfBooleanTest,
-              context: this.mxcontext,
-              origin: this.mxform,
-              callback: lang.hitch(this, function(callback, returnedBoolean) {
-                console.log("Nanoflow TEST result " + returnedBoolean);
-                this._addClasses(returnedBoolean);
-              }, callback),
-              error: lang.hitch(this, function(error) {
-                console.log("Nanoflow TEST error");
-                console.log(error);
+                logger.error("Error in nanoflow");
+                logger.error(error);
               })
             });
           };
         },
 
-        _addClasses: function (classes) {
-          // Determine the element to apply to
-          this._elementToApplyTo = this.domNode.parentNode;
+        _addClasses: function (_classes) {
+          // Split classes on spaces and add to node
+          _classes.split(" ").forEach(lang.hitch(this, function (_class) {
+            this._elementToApplyTo.classList.add(_class);
+          }));
+        },
 
-          //split on spaces
-          //add the classes
-          this._elementToApplyTo.classList.add(classes);
-          console.log(this._elementToApplyTo.classList);
+        // Reset subscriptions
+        _resetSubscriptions: function () {
+          //logger.debug(this.id + "._resetSubscriptions");
+          if (this._handles) {
+            this._handles.forEach(lang.hitch(this, function (handle) {
+              this.unsubscribe(handle);
+            }));
+            this._handles = [];
+          }
+          if (this._contextObj) {
+            this._handle = this.subscribe({
+              guid: this._contextObj.getGuid(),
+              callback: lang.hitch(this, function (guid) {
+                this._updateRendering();
+              })
+            });
+          }
+          this._handles [this._handle];
         },
 
         // Shorthand for executing a callback, adds logging to your inspector
         _executeCallback: function (cb, from) {
-            logger.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
-            if (cb && typeof cb === "function") {
-                cb();
-            }
+          //logger.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
+          if (cb && typeof cb === "function") {
+            cb();
+          }
         }
     });
 });

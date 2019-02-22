@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="DynamicClasses.widget.DynamicClasses" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
     <name>DynamicClasses</name>
-    <description>The description of this widget.</description>
+    <description>This widget adds classes to the element the widget is placed in. The classes are determined with a nanoflow, microflow or even both.</description>
 
-    <icon />
+    <icon>
+      iVBORw0KGgoAAAANSUhEUgAAAEgAAAA4CAYAAABez76GAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+      AAAB2AAAAdgB+lymcgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANbSURB
+      VGiB7ZtNTxRBEIaf5SCJBIzclI1GD3jXBLjrASIaBPGg/wCz2XjQ/4IJylmvrvIrhHhx9bgYPxBF
+      vrwgjIfeNZJlu7q3q2cGnSfpZJPOVr1Vqf6YmW4I4xxQAZaAOrADJB3aKjAR6A/gOvDB4menqeUl
+      MAeUFXx6UwYWgF8WoUe1hoLvVU+fe8BjYEjBtxNTwLanyL9bKN363QRuKPi3UgX2A0RmmaCkqb2i
+      oOFIpghPTtYJaiXppoKOQ5QJG1Z5SlBruJ1V0PKHBSVhWUzSndq8ghbALOW+q1Wn5Iwr6JlAJ0l7
+      KG0BKg7OGsAM0K/hMJB+4BZmLyTpntNw+Epw0gAGNRwpM4hcaS80HL0TnMxoOInELHbtdQ0nW4KT
+      PAyrTgxg174lGSg5OEkUbGRJkP4eRSH/JEWCBIoECUgJkuYXaXzngahzkLTTXBf688A3od/6TCYl
+      6K7Q/1HozwOfhP573RoeA35i30c86dZ4iixij2EXE6sXV4DvguEE844o70wjx/EDjySNNv8gGf0C
+      nFQKIiZ9GK0uSRqVjLlWTkLEV5cRqOIWk7WSXCsnAV4DJ6KEEodeYBn3JLVVkk/lrAMXYkYTifO4
+      DbW2SroEbHj8cSSNaCIxgvso2QCGAZ47/sFpEjsG+Ewlz8BspP6X5LS4jNlhS3F/7mn+cCHv7318
+      KOEWzz6YMiqGmGWIDVNM0tZJGtzHZGuZv5hGNMr4LvNto8Wn9JYxm6/jQi+wgsJU4lNJ1SihxOEB
+      ivOsayWtYR4E804fRqvqIuRaSdNKQcTkNpFW6DHMyySb4afB8uOziD2GXQK2L48E4yvd606NN9hj
+      eBhivCwYXwsxnhJfscdgPdwpbbdLwIGlPyH/39YOsMdpfdwqvs0X3+bDKBIkUCRIwCVB20J/ng9Q
+      nRL6pdicEiR9ur3qYCMrrgn9Kp/Oa9j3EXXgtIYjZQaB99i11zQc3RecJJiTrrOYM4FZMwDcwe0s
+      tcox4DLm0LXL6wJbS+u+mGtTO0gO5th+qKBWpYWSu6sIYJ5XNpWEhaKhYRM4o6DlEOPo3NkIJdT/
+      PhEv1lUoLtSJTBI23EIJGVaTCv6dGMJMcr6rW1aXeueJMOe4UMbsJWrAW+y3EtO6L7bd1FJD4Vr4
+      b+2j+t1UDopSAAAAAElFTkSuQmCC
+    </icon>
 
     <properties>
-        <property key="nfReturningClass" type="nanoflow" required="true" defaultValue="">
+        <property key="nfReturningClass" type="nanoflow" required="false" defaultValue="">
             <caption>Nanoflow</caption>
             <category>Behavior</category>
-            <description>The nanoflow that returns the classes that should be added.</description>
+            <description>The nanoflow that returns the classes that should be added. Multiple classes can be seperated with a space.</description>
             <returnType type="String" />
         </property>
-        <property key="nfBooleanTest" type="nanoflow" required="true" defaultValue="">
-            <caption>Test Nanoflow</caption>
-            <category>Behavior</category>
-            <description>The nanoflow that returns a boolean for test purposes.</description>
-            <returnType type="Boolean" />
-        </property>
-        <property key="mfReturningClass" type="microflow" required="true" defaultValue="">
+        <property key="mfReturningClass" type="microflow" required="false" defaultValue="">
             <caption>Microflow</caption>
             <category>Behavior</category>
-            <description>The microflow that returns the classes that should be added.</description>
+            <description>Same as above, but uses a microflow.</description>
             <returnType type="String" />
         </property>
     </properties>
