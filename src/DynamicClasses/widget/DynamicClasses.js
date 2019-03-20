@@ -30,6 +30,8 @@ define([
         _handle: null,
         _contextObj: null,
         _elementToApplyTo: null,
+        _classListFromNF: null,
+        _classListFromMF: null,
 
         constructor: function () {
           this._handles = [];
@@ -39,6 +41,7 @@ define([
           //logger.debug(this.id + ".postCreate");
           this.domNode.style.display = "none";
           this.domNode.classList = this.domNode.parentNode.classList;
+          //Todo: determine the element from 'something' in the modeler, probably a class.
           this._elementToApplyTo = this.domNode.parentNode;
         },
 
@@ -60,13 +63,11 @@ define([
 
         _updateRendering: function () {
           //logger.debug(this.id + "._updateRendering");
-          this._setClasses ();
+          this._setClasses();
         },
 
         // Get classes from microflow and/or nanoflow and apply them to the right element
         _setClasses: function (callback) {
-          // Reset to original classes
-          this._elementToApplyTo.classList = this.domNode.classList
           // Microflow part
           if (this.mfReturningClass && this._contextObj) {
             mx.ui.action(this.mfReturningClass, {
@@ -76,7 +77,7 @@ define([
               },
               callback: lang.hitch(this, function (callback, returnedString) {
                 //logger.debug("Microflow result " + returnedString)
-                this._addClasses(returnedString);
+                this._classListFromMF = this._handleClasses(this.domNode.classList, this._classListFromMF, returnedString);
               }, callback),
               error: lang.hitch(this, function(error) {
                 logger.error("Error in microflow " + this.mfReturningClass);
@@ -92,7 +93,7 @@ define([
               origin: this.mxform,
               callback: lang.hitch(this, function(callback, returnedString) {
                 //logger.debug("Nanoflow result " + returnedString);
-                this._addClasses(returnedString);
+                this._classListFromNF = this._handleClasses(this.domNode.classList, this._classListFromNF, returnedString);
               }, callback),
               error: lang.hitch(this, function(error) {
                 logger.error("Error in nanoflow");
@@ -102,11 +103,23 @@ define([
           };
         },
 
-        _addClasses: function (_classes) {
-          // Split classes on spaces and add to node
-          _classes.split(" ").forEach(lang.hitch(this, function (_class) {
-            this._elementToApplyTo.classList.add(_class);
-          }));
+        _handleClasses: function (_original, _previous, _new = "") {
+          _new = _new.trim().replace(/\s\s+/g, " ");
+          if (_previous) {
+            _previous.forEach(lang.hitch(this, function (_prevClass) {
+              if (!(_new.includes(" " + _prevClass))) {
+                this._elementToApplyTo.classList.remove(_prevClass);
+              };
+            }));
+          };
+          var _tempElement = document.createElement("div");
+          if (_new != "") {
+            _new.split(" ").forEach(lang.hitch(this, function (_class) {
+              this._elementToApplyTo.classList.add(_class);
+              _tempElement.classList.add(_class);
+            }));
+          };
+          return _tempElement.classList;
         },
 
         // Reset subscriptions
