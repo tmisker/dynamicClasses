@@ -17,7 +17,7 @@ define([
 
 
 ], function (declare, _WidgetBase, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, lang, dojoText, dojoHtml, dojoEvent) {
-    "use strict";
+    //"use strict";
 
     return declare("DynamicClasses.widget.DynamicClasses", [ _WidgetBase ], {
 
